@@ -9,15 +9,14 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-colcon-common-extensions \
     ros-dev-tools \
-    # Add specific ROS packages your project needs
     ros-jazzy-ros2-control \
     ros-jazzy-ros2-controllers \
     ros-jazzy-moveit \
     && rm -rf /var/lib/apt/lists/*
 
-# Upgrade pip and install any required Python packages
-RUN python3 -m pip install --upgrade pip --break-system-packages
-# RUN pip3 install some-python-package
+# If you need to install specific Python packages, you can add them here.
+# For example:
+# RUN python3 -m pip install numpy pandas --break-system-packages
 
 # Create a ROS 2 workspace directory
 WORKDIR /ros2_ws

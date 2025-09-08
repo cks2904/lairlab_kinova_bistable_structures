@@ -1,7 +1,7 @@
 {
     "name": "Kinova ROS 2 Dev Environment",
-    "dockerFile": "../Dockerfile",
-    "context": "..",
+    "dockerFile": "Dockerfile",
+    "context": ".",
     "runArgs": [
         "--network=host",
         "--privileged",

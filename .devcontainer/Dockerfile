@@ -1,4 +1,5 @@
-# Start from the official ROS 2 Jazzy desktop imageFROM osrf/ros:jazzy-desktop
+# Start from the official ROS 2 Jazzy desktop image
+FROM osrf/ros:jazzy-desktop
 
 # Avoid interactive prompts during package installation
 ARG DEBIAN_FRONTEND=noninteractive

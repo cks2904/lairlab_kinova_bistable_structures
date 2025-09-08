@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip and install any required Python packages
-RUN pip3 install --upgrade pip
+RUN python3 -m pip install --upgrade pip --break-system-packages
 # RUN pip3 install some-python-package
 
 # Create a ROS 2 workspace directory

@@ -1,0 +1,24 @@
+{
+    "name": "Kinova ROS 2 Dev Environment",
+    "dockerFile": "../Dockerfile",
+    "context": "..",
+    "runArgs": [
+        "--network=host",
+        "--privileged",
+        "-v", "/dev:/dev"
+    ],
+    "mounts": [
+        "source=${localWorkspaceFolder},target=/ros2_ws,type=bind,consistency=cached"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-iot.vscode-ros",
+                "ms-python.python",
+                "ms-vscode.cpptools"
+            ]
+        }
+    },
+    "postCreateCommand": "rosdep update && rosdep install --from-paths src --ignore-src -r -y",
+    "remoteUser": "root"
+}

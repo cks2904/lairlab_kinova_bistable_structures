@@ -1,0 +1,9 @@
+# Build artifacts
+build/
+install/
+log/
+
+# Other common ignores
+*.pyc
+__pycache__/
+

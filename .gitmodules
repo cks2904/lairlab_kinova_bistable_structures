@@ -1,0 +1,18 @@
+[submodule "src/ros2_control"]
+	path = src/ros2_control
+	url = https://github.com/cks2904/ros2_control.git
+[submodule "src/ros2_control_cmake"]
+	path = src/ros2_control_cmake
+	url = https://github.com/cks2904/ros2_control_cmake.git
+[submodule "src/ros2_controllers"]
+	path = src/ros2_controllers
+	url = https://github.com/cks2904/ros2_controllers.git
+[submodule "src/ros2_kortex"]
+	path = src/ros2_kortex
+	url = https://github.com/cks2904/ros2_kortex.git
+[submodule "src/ros2_robotiq_gripper"]
+	path = src/ros2_robotiq_gripper
+	url = https://github.com/cks2904/ros2_robotiq_gripper.git
+[submodule "src/serial"]
+	path = src/serial
+	url = https://github.com/cks2904/serial.git

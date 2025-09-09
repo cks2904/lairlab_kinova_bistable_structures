@@ -12,11 +12,14 @@ RUN apt-get update && apt-get install -y \
     ros-jazzy-ros2-control \
     ros-jazzy-ros2-controllers \
     ros-jazzy-moveit \
+    ros-jazzy-plotjuggler-ros \
+    ros-jazzy-foxglove-bridge \
     && rm -rf /var/lib/apt/lists/*
 
 # If you need to install specific Python packages, you can add them here.
 # For example:
 # RUN python3 -m pip install numpy pandas --break-system-packages
+RUN python3 -m pip install numpy pandas pyserial --break-system-packages
 
 # Create a ROS 2 workspace directory
 WORKDIR /ros2_ws

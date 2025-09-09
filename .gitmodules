@@ -16,3 +16,6 @@
 [submodule "src/serial"]
 	path = src/serial
 	url = https://github.com/cks2904/serial.git
+[submodule "src/realsense-ros"]
+	path = src/realsense-ros
+	url = git@github.com:brucewayne7777/realsense-ros.git

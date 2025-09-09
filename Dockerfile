@@ -16,14 +16,11 @@ RUN apt-get update && apt-get install -y \
     ros-jazzy-foxglove-bridge \
     && rm -rf /var/lib/apt/lists/*
 
-# If you need to install specific Python packages, you can add them here.
-# For example:
-# RUN python3 -m pip install numpy pandas --break-system-packages
+# Install Python packages
 RUN python3 -m pip install numpy pandas pyserial --break-system-packages
 
-# Create a ROS 2 workspace directory
-WORKDIR /ros2_ws
+# Set a default working directory
+WORKDIR /workspaces
 
-# Source the ROS 2 setup file in the bashrc to make it available in all terminals
+# Source the main ROS 2 setup file, but NOT the local one
 RUN echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
-RUN echo "source /ros2_ws/install/local_setup.bash" >> ~/.bashrc

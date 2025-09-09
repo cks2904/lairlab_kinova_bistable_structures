@@ -5,7 +5,9 @@
     "runArgs": [
         "--network=host",
         "--privileged",
-        "-v", "/dev:/dev"
+        "-v", "/dev:/dev",
+        "-v", "/tmp/.X11-unix:/tmp/.X11-unix",
+        "-e", "DISPLAY"
     ],
     "mounts": [
         "source=${localWorkspaceFolder},target=/ros2_ws,type=bind,consistency=cached"

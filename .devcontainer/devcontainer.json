@@ -7,7 +7,9 @@
         "--privileged",
         "-v", "/dev:/dev",
         "-v", "/tmp/.X11-unix:/tmp/.X11-unix",
+        "-v", "/path/to/your/ssh-agent.sock:/ssh-agent",
         "-e", "DISPLAY",
+        "-e", "SSH_AUTH_SOCK=/ssh-agent"
     ],
     "customizations": {
         "vscode": {

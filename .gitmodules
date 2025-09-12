@@ -25,3 +25,6 @@
 [submodule "src/tactile_sensor_ros2_ws"]
 	path = src/tactile_sensor_ros2_ws
 	url = https://github.com/brucewayne7777/tactile_sensor_ros2_ws.git
+[submodule "src/image_extractor_pkg"]
+	path = src/image_extractor_pkg
+	url = https://github.com/brucewayne7777/realsense_image_extractor.git

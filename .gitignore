@@ -6,6 +6,7 @@ log/
 # Other common ignores
 *.pyc
 __pycache__/
+git-author-rewrite.sh
 
 bags/
 readmedraft.md

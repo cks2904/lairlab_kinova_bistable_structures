@@ -12,12 +12,56 @@ This project implements a variable stiffness control system for the Kinova Gen3 
 ### Clone Instructions
 
 ```bash
-# Clone with submodules
+# Clone with submodules (recommended)
 git clone --recursive https://github.com/cks2904/lairlab_kinova_bistable_structures.git
 
 # If you already cloned without --recursive, run:
 git submodule update --init --recursive
 ```
+
+### Managing Submodules
+
+This project uses several submodules (e.g., tactile_sensor_pkg, image_extractor_pkg). Here's how to manage them:
+
+#### Updating All Submodules
+```bash
+# Update all submodules to their latest versions
+git submodule update --remote --merge
+
+# Then commit the updates
+git add .
+git commit -m "chore: Update submodules"
+git push
+```
+
+#### Updating Specific Submodule
+```bash
+# Navigate to submodule directory
+cd src/image_extractor_pkg
+
+# Pull latest changes
+git pull origin main
+
+# Return to main project and commit
+cd ../..
+git add src/image_extractor_pkg
+git commit -m "chore: Update image_extractor_pkg submodule"
+git push
+```
+
+#### Troubleshooting Submodules
+```bash
+# If submodules appear empty
+git submodule update --init --recursive
+
+# If submodules are on wrong commit
+git submodule update --recursive
+
+# Check submodule status
+git submodule status
+```
+
+⚠️ **Important**: Always use `--recursive` when cloning or updating to ensure all nested submodules are properly initialized.
 
 ### Docker Setup �
 
@@ -419,11 +463,10 @@ sudo ip link set enp4s0 up
 ## Contributors
 
 ### Project Team
-- [Sudhaavan K.](https://github.com/brucewayne7777) - Lead Developer
-- [Yechan Kwon](https://github.com/cks2904) - Developer
-
+- [Sudhaavan K.](https://github.com/brucewayne7777) - Research Intern
+- [Yechan Kwon](https://github.com/cks2904) - Research Intern
 ### Project Supervisors
-- [Dr. Christopher Yee-Kong Wong](https://www.concordia.ca/faculty/christopheryee-wong.html) - Assistant Professor, [GitHub](https://github.com/chrisywong)
+- [Dr. Christopher Yee Wong](https://www.concordia.ca/faculty/christopheryee-wong.html) - Assistant Professor
   - Concordia University, Department of Mechanical, Industrial and Aerospace Engineering
   - Director, Laboratory for Artificial Intelligence in Robotics (LAIR)
 

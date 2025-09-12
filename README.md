@@ -2,6 +2,42 @@
 
 This project implements a variable stiffness control system for the Kinova Gen3 robotic arm using bistable finger structures, integrating tactile sensing and vision capabilities for precision manipulation. The system is containerized using Docker for consistent deployment across different machines.
 
+🚀 **Quick Start Guide**
+1. Clone this repository with submodules (see [Clone Instructions](#clone-instructions) below)
+2. Install Docker and VS Code (see [Docker Setup](#docker-setup) for your OS)
+3. Open in VS Code and click "Reopen in Container"
+4. Follow the Hardware Setup section below
+5. Build and run the system
+
+### Clone Instructions
+
+```bash
+# Clone with submodules
+git clone --recursive https://github.com/cks2904/lairlab_kinova_bistable_structures.git
+
+# If you already cloned without --recursive, run:
+git submodule update --init --recursive
+```
+
+### Docker Setup �
+
+Install Docker for your operating system:
+- [Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/)
+- [Docker Desktop for Mac](https://docs.docker.com/desktop/install/mac-install/)
+- [Docker Engine for Linux](https://docs.docker.com/engine/install/)
+
+⚠️ **Note**: For Windows users, WSL2 is required. Follow the [WSL2 installation guide](https://learn.microsoft.com/en-us/windows/wsl/install) first.
+
+### VS Code Setup
+1. Install [VS Code](https://code.visualstudio.com/download)
+2. Install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+
+⭐ **Key Features**
+- Containerized development environment for easy setup
+- Integrated tactile sensing and vision systems
+- Modular ROS2-based architecture
+- Comprehensive hardware integration
+
 ## System Overview
 
 The project integrates several key components:
@@ -14,20 +50,52 @@ The project integrates several key components:
 
 ## Prerequisites
 
-- Docker
+⚠️ **Important System Requirements**
+- This project was developed and tested on Ubuntu
+- For RealSense camera compatibility, Ubuntu kernel 6.08 is required
+- Other operating systems may work with Docker but are not officially tested
+
+### Software Requirements ✅
+- Docker (v20.10 or higher)
+- VS Code with Dev Containers extension
 - Ubuntu-based system with:
   - X11 for GUI applications
   - USB support for hardware devices
   - Network capabilities for ROS2 communication
 
+### First Time Setup Checklist 📋
+1. [ ] Install Docker and VS Code
+2. [ ] Clone this repository
+3. [ ] Set up udev rules for Arduino devices
+4. [ ] Configure network settings for robot
+5. [ ] Build the workspace
+6. [ ] Test basic functionality
+
 ## Hardware Requirements
 
+### Required Hardware 🔧
 - Kinova Gen3 6-DOF robotic arm
 - Intel RealSense D435 camera
 - Arduino boards (2x):
-  - One for servo force control
-  - One for tactile sensing
-- Network connection for robot communication
+  - One for servo force control (Arduino Uno/Mega)
+  - One for tactile sensing (Arduino Uno/Mega)
+- Network connection for robot communication (Ethernet preferred)
+
+### Hardware Setup Guide 🛠️
+1. **Kinova Robot**
+   - Ensure robot is properly mounted and powered
+   - Connect ethernet cable directly to your computer
+   - Note down the robot's IP address (default: 192.168.1.10)
+
+2. **Arduino Boards**
+   - Connect both Arduino boards via USB
+   - Note which port is assigned to each board
+   - Follow udev rules setup in section below
+
+3. **RealSense Camera**
+   - Mount camera securely near the workspace
+   - Connect via USB 3.0 port for best performance
+   - Ensure clear view of the manipulation area
 
 ## Project Structure
 
@@ -49,18 +117,77 @@ The project integrates several key components:
 
 ### 1. Docker Environment Setup
 
-```bash
-# Grant X server access to local user
-xhost +local:
+#### Pre-container Setup
 
-# Build and start the Docker container via VS Code
-# 1. Open the project in VS Code
-code .
-# 2. When prompted, click "Reopen in Container" or use Command Palette (F1)
-#    and select "Dev Containers: Reopen in Container"
+1. **Linux**: Enable X11 forwarding for GUI applications
+   ```bash
+   # Grant X server access to local user
+   xhost +local:
+   ```
+
+2. **Windows with WSL2**:
+   - Install [VcXsrv](https://sourceforge.net/projects/vcxsrv/) or [GWSL](https://opticos.github.io/gwsl/)
+   - Configure display export in WSL2:
+     ```bash
+     echo "export DISPLAY=:0" >> ~/.bashrc
+     source ~/.bashrc
+     ```
+
+3. **macOS**:
+   - Install [XQuartz](https://www.xquartz.org/)
+   - Configure XQuartz:
+     ```bash
+     # Allow network connections
+     defaults write org.xquartz.X11 nolisten_tcp 0
+     # Restart XQuartz after changing settings
+     ```
+
+#### Start Development Container
+
+1. Open the project in VS Code:
+   ```bash
+   code .
+   ```
+
+2. When prompted, click "Reopen in Container" 
+   - Or use Command Palette (F1) and select "Dev Containers: Reopen in Container"
+   - First build may take 10-15 minutes
+
+#### Verify Container Setup
+
+```bash
+# Check ROS2 is available
+ros2 --version
+
+# Check GUI works
+ros2 run rqt_graph rqt_graph
 ```
 
-#### Working with Docker Terminals
+#### Verifying Submodule Setup
+
+Check if all submodules are properly initialized:
+
+```bash
+# List all submodules and their status
+git submodule status
+
+# Expected output should show all submodules with their commit hashes
+# If you see a '-' before the hash, the submodule needs initialization
+```
+
+Common submodule issues and fixes:
+```bash
+# If submodules are empty:
+git submodule update --init --recursive
+
+# If submodules are on wrong commit:
+git submodule update --recursive
+
+# To update all submodules to their latest versions:
+git submodule update --remote --merge
+```
+
+### Working with Docker Terminals
 
 You can work with the Docker environment in two ways:
 
@@ -79,26 +206,47 @@ You can work with the Docker environment in two ways:
 
 ⚠️ **Important**: All development commands (colcon build, ros2 run, etc.) must be executed inside the Docker container terminal.
 
-### 2. Arduino Setup
+### 2. First-Time Arduino Setup (Ubuntu Only)
 
-First-time Arduino setup requires udev rules configuration:
+⚠️ **One-Time Setup**: These steps are only required once on your Ubuntu system to configure USB permissions. You won't need to repeat this setup unless you reinstall your system.
 
-```bash
-# Get device attributes
-udevadm info -a -n /dev/ttyACM0 | grep -E "ATTRS{idVendor}|ATTRS{idProduct}|ATTRS{serial}"
+#### Step-by-Step Arduino Configuration (Skip if already configured):
 
-# Create udev rules
-sudo nano /etc/udev/rules.d/99-arduino.rules
+1. **Find Device Information**:
+   ```bash
+   # Get device attributes for your Arduino
+   udevadm info -a -n /dev/ttyACM0 | grep -E "ATTRS{idVendor}|ATTRS{idProduct}|ATTRS{serial}"
+   
+   # If your Arduino is on a different port, replace ttyACM0 with the correct port
+   # Common alternatives: ttyACM1, ttyUSB0, ttyUSB1
 
-# Add rules like:
-SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0042", SYMLINK+="ttyServo"
-SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0043", SYMLINK+="ttyTactile"
+2. **Create udev Rules File**:
+   ```bash
+   sudo nano /etc/udev/rules.d/99-arduino.rules
+   ```
 
-# Apply rules
-sudo udevadm control --reload-rules && sudo udevadm trigger
+3. **Add These Rules** (adjust vendor/product IDs if different):
+   ```bash
+   # For Servo Control Arduino
+   SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0042", SYMLINK+="ttyServo", MODE="0666"
+   # For Tactile Sensor Arduino
+   SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0043", SYMLINK+="ttyTactile", MODE="0666"
+   ```
 
-# Verify setup
-ls -l /dev/ttyServo && ls -l /dev/ttyTactile
+4. **Apply and Verify Rules**:
+   ```bash
+   # Reload rules
+   sudo udevadm control --reload-rules && sudo udevadm trigger
+
+   # Verify symlinks were created
+   ls -l /dev/ttyServo
+   ls -l /dev/ttyTactile
+   ```
+
+5. **Troubleshooting**:
+   - If symlinks aren't created, unplug and replug the Arduino boards
+   - Check if IDs match your devices using the command from step 1
+   - Ensure no permission errors with: `ls -l /dev/ttyACM*`
 ```
 
 ### 3. Build Workspace
@@ -113,9 +261,17 @@ source install/setup.bash
 
 ## Running the System
 
-1. Start the robot control node:
-```bash
-ros2 launch kortex_bringup gen3.launch.py robot_ip:=192.168.1.10 dof:=6
+### System Startup Sequence 🚀
+
+Follow these steps in order to ensure proper system initialization:
+
+1. **Start the Robot Control Node**:
+   ```bash
+   # Make sure the robot is powered on and ethernet is connected
+   ros2 launch kortex_bringup gen3.launch.py robot_ip:=192.168.1.10 dof:=6
+   
+   # Wait for successful connection message
+   # You should see "Robot is ready to use" in the terminal
 ```
 
 2. Launch the camera node:

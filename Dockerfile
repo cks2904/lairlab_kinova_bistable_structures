@@ -14,6 +14,12 @@ RUN apt-get update && apt-get install -y \
     ros-jazzy-moveit \
     ros-jazzy-plotjuggler-ros \
     ros-jazzy-foxglove-bridge \
+    # Install GUI dependencies
+    qtbase5-dev \
+    qtchooser \
+    qt5-qmake \
+    qtbase5-dev-tools \
+    x11-apps \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python packages

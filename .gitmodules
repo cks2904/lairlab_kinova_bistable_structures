@@ -18,10 +18,10 @@
 	url = https://github.com/cks2904/serial.git
 [submodule "src/realsense-ros"]
 	path = src/realsense-ros
-	url = git@github.com:brucewayne7777/realsense-ros.git
+	url = https://github.com/brucewayne7777/realsense-ros.git
 [submodule "src/librealsense-2.56.5"]
 	path = src/librealsense-2.56.5
-	url = git@github.com:brucewayne7777/librealsense.git
+	url = https://github.com/brucewayne7777/librealsense.git
 [submodule "src/tactile_sensor_ros2_ws"]
 	path = src/tactile_sensor_ros2_ws
-	url = git@github.com:brucewayne7777/tactile_sensor_ros2_ws.git
+	url = https://github.com/brucewayne7777/tactile_sensor_ros2_ws.git

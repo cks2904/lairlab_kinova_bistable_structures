@@ -1,25 +1,30 @@
 {
-    "name": "Kinova ROS 2 Dev Environment",
-    "dockerFile": "../Dockerfile",
-    "context": "..",
-    "runArgs": [
-        "--network=host",
-        "--privileged",
-        "-v", "/dev:/dev",
-        "-v", "/tmp/.X11-unix:/tmp/.X11-unix",
-        "-v", "/path/to/your/ssh-agent.sock:/ssh-agent",
-        "-e", "DISPLAY",
-        "-e", "SSH_AUTH_SOCK=/ssh-agent"
-    ],
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "ms-iot.vscode-ros",
-                "ms-python.python",
-                "ms-vscode.cpptools"
-            ]
-        }
-    },
-    "postCreateCommand": "sudo chown -R $(whoami) /workspaces && rosdep update && rosdep install --from-paths src --ignore-src -r -y",
-    "remoteUser": "root"
+  "name": "Kinova ROS 2 Dev Environment",
+  "dockerFile": "../Dockerfile",
+  "context": "..",
+  "runArgs": [
+    "--network=host",
+    "--privileged",
+    "-v",
+    "/dev:/dev",
+    "-v",
+    "/tmp/.X11-unix:/tmp/.X11-unix",
+    "-v",
+    "/path/to/your/ssh-agent.sock:/ssh-agent",
+    "-e",
+    "DISPLAY",
+    "-e",
+    "SSH_AUTH_SOCK=/ssh-agent"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-iot.vscode-ros",
+        "ms-python.python",
+        "ms-vscode.cpptools"
+      ]
+    }
+  },
+  "postCreateCommand": "sudo chown -R $(whoami) /workspaces && rosdep update && rosdep install --from-paths src --ignore-src -r -y",
+  "remoteUser": "root"
 }

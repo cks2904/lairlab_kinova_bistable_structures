@@ -52,7 +52,7 @@ The project integrates several key components:
 
 ⚠️ **Important System Requirements**
 - This project was developed and tested on Ubuntu
-- For RealSense camera compatibility, Ubuntu kernel 6.08 is required
+- For RealSense camera compatibility, boot on Ubuntu kernel 6.08 is required
 - Other operating systems may work with Docker but are not officially tested
 
 ### Software Requirements ✅
@@ -104,6 +104,7 @@ The project integrates several key components:
 ├── src/
 │   ├── arduino_servo_force_publisher/    # Arduino force feedback integration
 │   ├── gripper_control/                  # Gripper control implementation
+│   ├── image_extractor_pkg/             # ROS2 package for image extraction and processing
 │   ├── librealsense-2.56.5/             # RealSense SDK
 │   ├── realsense-ros/                    # ROS2 wrapper for RealSense
 │   ├── ros2_arduino_servo/              # Arduino servo control
@@ -417,4 +418,15 @@ sudo ip link set enp4s0 up
 
 ## Contributors
 
-[List Contributors]
+### Project Team
+- [Sudhaavan K.](https://github.com/brucewayne7777) - Lead Developer
+- [Yechan Kwon](https://github.com/cks2904) - Developer
+
+### Project Supervisors
+- [Dr. Christopher Yee-Kong Wong](https://www.concordia.ca/faculty/christopheryee-wong.html) - Assistant Professor, [GitHub](https://github.com/chrisywong)
+  - Concordia University, Department of Mechanical, Industrial and Aerospace Engineering
+  - Director, Laboratory for Artificial Intelligence in Robotics (LAIR)
+
+- [Dr. Hang Xu](https://www.concordia.ca/faculty/hang-xu.html) - Assistant Professor
+  - Concordia University, Department of Mechanical, Industrial and Aerospace Engineering
+  - Principal Investigator, Applied Mechanics and Design Lab

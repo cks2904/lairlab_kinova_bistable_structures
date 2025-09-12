@@ -53,10 +53,31 @@ The project integrates several key components:
 # Grant X server access to local user
 xhost +local:
 
-# Build and start the Docker container
-cd /path/to/project
-docker compose up --build
+# Build and start the Docker container via VS Code
+# 1. Open the project in VS Code
+code .
+# 2. When prompted, click "Reopen in Container" or use Command Palette (F1)
+#    and select "Dev Containers: Reopen in Container"
 ```
+
+#### Working with Docker Terminals
+
+You can work with the Docker environment in two ways:
+
+1. **VS Code Integrated Terminal**:
+   - Open VS Code's integrated terminal
+   - It's already connected to the container
+
+2. **External Terminal**:
+   ```bash
+   # List running containers
+   docker ps
+   
+   # Connect to the container (replace container_name with actual name)
+   docker exec -it <container_name> /bin/bash
+   ```
+
+⚠️ **Important**: All development commands (colcon build, ros2 run, etc.) must be executed inside the Docker container terminal.
 
 ### 2. Arduino Setup
 
@@ -103,9 +124,29 @@ ros2 run realsense2_camera realsense2_camera_node
 ```
 
 3. Start tactile sensor publisher:
+
+The tactile sensor implementation is located in the [src/tactile_sensor_ros2_ws](src/tactile_sensor_ros2_ws) submodule. Follow these steps in the Docker terminal:
+
 ```bash
+# Build just the tactile sensor package
+cd /workspaces/lairlab_kinova_bistable_structures
+colcon build --packages-select tactile_sensor_pkg
+source install/setup.bash
+
+# Start the tactile sensor publisher
 ros2 run tactile_sensor_pkg tactile_publisher --ros-args -p serial_port:='/dev/ttyTactile'
+
+# In a separate terminal, configure sensor parameters if needed
+ros2 param get /tactile_sensor_publisher touch_threshold_percentage
+ros2 param set /tactile_sensor_publisher touch_threshold_percentage 15.0
 ```
+
+Available tactile sensor topics:
+- `/tactile_raw_values`: Raw sensor readings
+- `/tactile_binary_array`: Binary contact detection array
+- `/tactile_touch_detected`: Overall touch detection status
+
+For detailed information about the tactile sensor implementation, refer to the [tactile sensor documentation](src/tactile_sensor_ros2_ws/README.md).
 
 4. Launch servo force publisher:
 ```bash
@@ -138,10 +179,49 @@ ros2 bag record -o /path/to/output --topics \
 
 ## Development
 
-For development work:
-1. Make changes in the respective packages
-2. Rebuild the workspace: `colcon build`
-3. Source the setup files: `. install/setup.bash`
+### Docker Development Workflow
+
+All development work should be done inside the Docker container:
+
+1. **Initial Setup**:
+   ```bash
+   # In Docker terminal
+   cd /workspaces/lairlab_kinova_bistable_structures
+   colcon build
+   source install/setup.bash
+   ```
+
+2. **Clean Build** (if needed):
+   ```bash
+   # In Docker terminal
+   cd /workspaces/lairlab_kinova_bistable_structures
+   rm -rf build install log
+   colcon build
+   source install/setup.bash
+   ```
+
+3. **Building Specific Packages**:
+   ```bash
+   # Build single package
+   colcon build --packages-select my_package_name
+
+   # Build with reduced parallelism (for slower machines)
+   colcon build --parallel-workers 1
+   ```
+
+4. **Running Tests**:
+   ```bash
+   # Run tests for all packages
+   colcon test
+
+   # Run tests for specific package
+   colcon test --packages-select my_package_name
+   ```
+
+Remember:
+- Always run development commands in the Docker container
+- Source setup.bash after every build: `. install/setup.bash`
+- Use VS Code's integrated terminal or external terminal with `docker exec -it`
 
 ## Troubleshooting
 

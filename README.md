@@ -95,9 +95,9 @@ The project integrates several key components:
 ## Prerequisites
 
 ⚠️ **Important System Requirements**
-- This project was developed and tested on Ubuntu
-- For RealSense camera compatibility, boot on Ubuntu kernel 6.08 is required
-- Other operating systems may work with Docker but are not officially tested
+- This project was developed and tested on Ubuntu.
+- **Native Ubuntu Users**: For full RealSense camera compatibility, it is critical to boot into the **6.08-generic** kernel. The camera drivers have been found to be most stable on this specific version.
+- Other operating systems may work with Docker but are not officially tested.
 
 ### Software Requirements ✅
 - Docker (v20.10 or higher)

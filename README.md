@@ -458,7 +458,7 @@ sudo ip link set enp4s0 up
 
 ## License
 
-[Insert License Information]
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Contributors
 
